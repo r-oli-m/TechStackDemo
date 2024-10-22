@@ -1,65 +1,36 @@
-import React, { useState, useEffect } from "react";
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const app = express();
+const port = process.env.PORT || 3001; // Use Replit's port
 
-function App() {
-  const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+// Middleware to handle CORS and JSON bodies
+app.use(cors()); // Enable CORS for frontend requests
+app.use(express.json()); // Parse JSON bodies
 
-  // Fetch existing tasks from the backend when the component mounts
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "frontend/build")));
 
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch("urdevurl"); // PUT UR DEV URL IN HERE!!
-      const data = await response.json();
-      setTasks(data);
-    } catch (err) {
-      console.error("Error fetching tasks:", err);
-    }
-  };
+// API route to handle adding tasks
+let tasks = [];
+app.post("/add-task", (req, res) => {
+  const { task } = req.body;
+  console.log("Received task:", task); // Log to ensure the request is received
+  tasks.push(task); // Add task to the in-memory array
+  res.json({ tasks }); // Return updated tasks array
+});
 
-  const addTask = async (e) => {
-    e.preventDefault();
-    if (task.trim() === "") return;
+// API route to fetch all tasks
+app.get("/tasks", (req, res) => {
+  res.json(tasks); // Return the tasks array
+});
 
-    try {
-      const res = await fetch("urdevurl", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ task }),
-      });
-      // PUT UR DEV URL IN HERE!!
-      const data = await res.json();
-      console.log("A task has been added", data);
-      setTasks(data.tasks);
-      setTask(""); // Clear the input after adding the task
-    } catch (err) {
-      console.error("Error adding task:", err);
-    }
-  };
+// Catch-all route to serve the frontend React app for any unhandled route
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/build", "index.html"));
+});
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>To-Do List</h1>
-      <form onSubmit={addTask}>
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="Enter a task"
-        />
-        <button type="submit">Add Task</button>
-      </form>
-      <ul>
-        {tasks.map((t, index) => (
-          <li key={index}>{t}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
+// Start the server and log the Replit public URL
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port} or Replit URL`);
+});
