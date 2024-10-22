@@ -11,9 +11,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(
-        "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co/tasks",
-      );
+      const response = await fetch("urdevurl/tasks"); // PUT UR DEV URL IN HERE!!
       const data = await response.json();
       setTasks(data);
     } catch (err) {
@@ -26,16 +24,14 @@ function App() {
     if (task.trim() === "") return;
 
     try {
-      const res = await fetch(
-        "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co/add-task",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ task }),
+      const res = await fetch("urdevurl/add-task", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ task }),
+      });
+      // PUT UR DEV URL IN HERE!!
       const data = await res.json();
       console.log("A task has been added", data);
       setTasks(data.tasks);
