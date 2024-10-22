@@ -11,7 +11,9 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("urdevurl/tasks"); // PUT UR DEV URL IN HERE!!
+      const response = await fetch(
+        "urdevurl/tasks", // ADD URDEVURL HERE
+      );
       const data = await response.json();
       setTasks(data);
     } catch (err) {
@@ -24,14 +26,16 @@ function App() {
     if (task.trim() === "") return;
 
     try {
-      const res = await fetch("urdevurl/add-task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "urdevurl/add-task", // ADD URDEVURL HERE
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ task }),
         },
-        body: JSON.stringify({ task }),
-      });
-      // PUT UR DEV URL IN HERE!!
+      );
       const data = await res.json();
       console.log("A task has been added", data);
       setTasks(data.tasks);
