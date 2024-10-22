@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const server_url = "urdevurl";
+
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -12,7 +14,7 @@ function App() {
   const fetchTasks = async () => {
     try {
       const response = await fetch(
-        "urdevurl/tasks", // ADD URDEVURL HERE
+        `${server_url}/tasks`, // ADD URDEVURL HERE
       );
       const data = await response.json();
       setTasks(data);
@@ -27,7 +29,7 @@ function App() {
 
     try {
       const res = await fetch(
-        "urdevurl/add-task", // ADD URDEVURL HERE
+        `${server_url}/tasks`, // ADD URDEVURL HERE
         {
           method: "POST",
           headers: {
