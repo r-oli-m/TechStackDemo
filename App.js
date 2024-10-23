@@ -4,7 +4,7 @@ function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
 
-  const server =
+  const server_url_url =
     "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co";
 
   // Fetch existing tasks from the backend when the component mounts
@@ -14,7 +14,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(`${server}/tasks`);
+      const response = await fetch(`${server_url}/tasks`);
       const data = await response.json();
       setTasks(data);
     } catch (err) {
@@ -27,7 +27,7 @@ function App() {
     if (task.trim() === "") return;
 
     try {
-      const res = await fetch(`${server}/add-task`, {
+      const res = await fetch(`${server_url}/add-task`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
