@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-const server_url = "urdevurl";
-
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
+
+  const server =
+    "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co";
 
   // Fetch existing tasks from the backend when the component mounts
   useEffect(() => {
@@ -13,9 +14,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(
-        `${server_url}/tasks`, // ADD URDEVURL HERE
-      );
+      const response = await fetch(`${server}/tasks`);
       const data = await response.json();
       setTasks(data);
     } catch (err) {
@@ -28,16 +27,13 @@ function App() {
     if (task.trim() === "") return;
 
     try {
-      const res = await fetch(
-        `${server_url}/tasks`, // ADD URDEVURL HERE
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ task }),
+      const res = await fetch(`${server}/add-task`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ task }),
+      });
       const data = await res.json();
       console.log("A task has been added", data);
       setTasks(data.tasks);
