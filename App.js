@@ -5,7 +5,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   const server_url_url =
-    "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co";
+    "https://8f92d4ff-eb69-46e8-9a02-0665476b64f8-00-8ebjcqesav8b.janeway.repl.co"; // REPLACE w ur dev url (take out ending '/') !!!
 
   // Fetch existing tasks from the backend when the component mounts
   useEffect(() => {
